@@ -33,5 +33,11 @@ if (fs.existsSync(publicDir)) {
   });
 }
 
-app.listen(PORT,()=> {connectToMongoDB(); console.log("Server is listening 3000 ")});
+app.listen(PORT,()=> {
+  connectToMongoDB(); 
+  console.log("Server is up and running  on port ",PORT);
+
+  if (process.env.NODE_ENV === "production") job.start();
+});
+
 
