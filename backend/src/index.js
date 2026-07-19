@@ -8,13 +8,13 @@ import path from "path";
 import job from "./lib/cron.js";
 import clerkWebhook from "./webhooks/clerk.webhook.js";
 import authRoutes from "./routes/auth.routes.js";
+import messageRoutes from "./routes/message.route.js";
+import { app, server } from "./lib/socket.js";
 
 import cors from "cors";
 import dotenv from "dotenv";
 dotenv.config();
 
-
-const app=express();
 
 const PORT=process.env.PORT;
 const FRONTEND_URL=process.env.FRONTEND_URL;
@@ -33,6 +33,8 @@ app.get("/health",(req,res)=>{
 });
 
 app.use("api/auth",authRoutes);
+app.use("api/messages",messageRoutes);
+
 
 if (fs.existsSync(publicDir)) {
   app.use(express.static(publicDir));
@@ -42,7 +44,7 @@ if (fs.existsSync(publicDir)) {
   });
 }
 
-app.listen(PORT,()=> {
+server.listen(PORT,()=> {
   connectToMongoDB(); 
   console.log("Server is up and running  on port ",PORT);
 
