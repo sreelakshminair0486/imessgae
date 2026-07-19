@@ -1,19 +1,21 @@
 //const express =require("express")
+import dotenv from "dotenv";
+dotenv.config();
+
 import express from "express";
+import fs from "fs";
+import path from "path";
+import cors from "cors";
+
 import User from "./models/user.model.js";
 import connectToMongoDB from "./lib/db.js";
 import {clerkMiddleware} from '@clerk/express'
-import fs from "fs";
-import path from "path";
+
 import job from "./lib/cron.js";
 import clerkWebhook from "./webhooks/clerk.webhook.js";
 import authRoutes from "./routes/auth.routes.js";
 import messageRoutes from "./routes/message.route.js";
 import { app, server } from "./lib/socket.js";
-
-import cors from "cors";
-import dotenv from "dotenv";
-dotenv.config();
 
 
 const PORT=process.env.PORT;
@@ -32,8 +34,8 @@ app.get("/health",(req,res)=>{
     res.status(200).json({ok:true});
 });
 
-app.use("api/auth",authRoutes);
-app.use("api/messages",messageRoutes);
+app.use("/api/auth",authRoutes);
+app.use("/api/messages",messageRoutes);
 
 
 if (fs.existsSync(publicDir)) {

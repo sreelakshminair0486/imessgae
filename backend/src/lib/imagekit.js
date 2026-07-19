@@ -1,5 +1,7 @@
-import ImageKit, { toFile } from "@imagekit/nodejs";
+import dotenv from "dotenv";
+dotenv.config();
 
+import ImageKit, { toFile } from "@imagekit/nodejs";
 const imagekit = new ImageKit({ privateKey: process.env.IMAGEKIT_PRIVATE_KEY });
 
 function hasImageKitConfig() {
@@ -26,5 +28,5 @@ async function uploadChatMedia(file) {
 
   return result.url;
 }
-
+export default imagekit;
 export { uploadChatMedia, hasImageKitConfig };
